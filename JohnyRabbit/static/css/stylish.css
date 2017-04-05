@@ -1,0 +1,35 @@
+input {
+    width: 100%;
+}
+
+.btn-group {
+    width: 100%;
+}
+
+.head {
+    border-bottom: 1px solid;
+    margin-bottom: 20px
+}
+
+.info {
+    width: 100%
+}
+
+.main-text {
+    text-decoration: underline;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.main-text-mini {
+    text-decoration: underline;
+    margin-top: 0px;
+}
+
+h2 {
+    font-family: 'Batang';
+}
+
+h3 {
+    font-family: 'Batang';
+}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+<div class="row">
+    <div class="col-md-3">
+
+</div>
+    <div class="col-md-6">
+    <h1 align="center">Редактирование транзакции</h1>
+        </div>
+
+    <div class="col-md-3">
+
+</div>
+    </div>
+<div class="row">
+<div class="col-md-3">
+
+</div>
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Дебет:</label>
+        {{form.debit}}
+    </div>
+    <div class="form-group">
+        <label>Кредит:</label>
+        {{form.credit}}
+    </div>
+    <div class="form-group">
+        <label>Сумма:</label>
+        {{form.summ}}
+    </div>
+    <div class="form-group">
+        <label>Контрагент:</label>
+        {{form.contractor}}
+    </div>
+    <div class="form-group">
+        <label>Примечание:</label>
+        {{form.info}}
+    </div>
+    <input type="submit" class="btn btn-success btn-default">
+</form>
+             </div>
+    </div>
+    </div>
+<div class="col-md-3">
+
+</div>
+    </div>
+<script>
+    $('.chosen').chosen({width:"100%"})
+</script>
+    </div>
+{% endblock %}

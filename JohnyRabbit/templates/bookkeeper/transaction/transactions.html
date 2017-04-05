@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h2 class="main-text" align="center">Управление транзакциями <span class="glyphicon glyphicon-pencil"></span> </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-md-9">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="table-responvive">
+                                <h3 class="main-text" align="center">Список транзакций</h3>
+                                <table id="myTable" class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Дата и время </th>
+                                        <th>Дебет</th>
+                                        <th>Кредит</th>
+                                        <th>Сумма</th>
+                                        <th>Контрагент</th>
+                                        <th>Примечание</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-success">
+                        <div class="panel-body">
+                            <div class="row">
+                                <h3 class="main-text" align="center">Новая транзакция</h3>
+                            </div>
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label>Дебет:</label>
+                                    {{form.debit}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Кредит:</label>
+                                    {{form.credit}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Сумма:</label>
+                                    {{form.summ}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Контрагент:</label>
+                                    {{form.contractor}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Примечание:</label>
+                                    {{form.info}}
+                                </div>
+                                <input type="submit" class="btn btn-success btn-default">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.chosen').chosen({width:"100%"})
+</script>
+{% endblock %}
+{% block javascript %}
+<script language="JavaScript">
+$(document).ready(function(){
+    $('#myTable').DataTable({
+        "Processing": true,
+        "serverSide": true,
+        "ajax":"{% url 'trans_data' %}",
+        "columns": [
+            {data: 'date'},
+            {data: 'debit'},
+            {data: 'credit'},
+            {data: 'summ'},
+            {data: 'contractor'},
+            {data: 'info'},
+            {data: 'pk'}
+
+        ],
+        "columnDefs":[
+            {
+                "targets": 1,
+                "data": null,
+                "render": function(data,type,full,meta){
+                    return '<a class="btn btn-default btn-block btn-xs" href="/workgroup/bill/'+data+'">'+data+'</a>';
+            }},
+            {
+                "targets": 2,
+                "data": null,
+                "render": function(data,type,full,meta){
+                    return '<a class="btn btn-default btn-block btn-xs" href="/workgroup/bill/'+data+'">'+data+'</a>';
+            }},
+            {
+                "targets": 4,
+                "data": null,
+                "render": function(data,type,full,meta){
+                    return '<a class="btn btn-default btn-block btn-xs" href="/contractor/'+data.id+'">'+data.name+'</a>';
+            }},
+            {
+                "targets": 6,
+                "data": null,
+                "render": function(data,type,full,meta){
+                    return '<div class="btn-group "><a href="/edittrans/'+data+'/?next={{request.path}}'+'" class="btn btn-default btn-xs delete" style="width: 50%;"><span class="glyphicon glyphicon-pencil"></span></a><a href="/removetransaction/'+data+'" class="btn btn-danger btn-xs delete" style="width: 50%;">'+'<span class="glyphicon glyphicon-trash"></span>'+'</a></div>'}
+        }]
+    });
+});
+</script>
+{% endblock %}

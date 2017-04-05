@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load staticfiles %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h2 class="main-text" align="center">Формирование отчетности <span class="glyphicon glyphicon-pencil"></span> </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3 class="main-text-mini" align="center">Параметры формируемого отчета</h3>
+                            <form method="post">
+                                {% csrf_token %}
+                                {{form}}
+                                    <input type="submit" class="btn btn-success" value="Добавить" style="margin-top: 20px;">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                           <h3 class="main-text-mini" align="center">Сформированные ранее отчетности</h3>
+
+
+                            <table class="table table-bordered table-condensed" style="margin-top: 0px;" id="myTable">
+                                <thead>
+                                <tr>
+                                    <th>Тип</th>
+                                    <th>Дата создания</th>
+                                    <th>Наименование отчета</th>
+                                    <th>Начало периода</th>
+                                    <th>Конец периода</th>
+                                    <th>Действия</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="JavaScript">
+$(document).ready(function(){
+    $('#myTable').DataTable({
+        "Processing": true,
+        "serverSide": true,
+        "ajax":"{% url 'report_data' %}",
+        "columns": [
+            {data: null},
+            {data: 'date_report'},
+            {data: 'name'},
+            {data: 'start_date'},
+            {data: 'stop_date'},
+            {data: 'url'},
+        ],
+        "columnDefs":[
+            {
+                "targets": 0,
+                "data": null,
+                "render": function(data,type,full,meta){
+                    return '<img src="/static/images/exel.png"></img>';
+            }},
+            {
+                "targets": 5,
+                "data": null,
+                "render": function(data,type,full,meta){
+                    return '<div class="btn-group "><a href="'+data.url+'" class="btn btn-success btn-xs delete" style="width: 50%;"><span class="glyphicon glyphicon-download-alt"></span></a><a href="/removereport/'+data.pk+'" class="btn btn-danger btn-xs delete" style="width: 50%;">'+'<span class="glyphicon glyphicon-trash"></span>'+'</a></div>'
+
+        }
+        }]
+    });
+});
+
+</script>
+
+
+<script>
+    $('.chosen').chosen({width:"100%"})
+</script>
+{% endblock %}

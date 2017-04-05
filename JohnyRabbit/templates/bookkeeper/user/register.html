@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    {% load staticfiles %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'datatable/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'js/chosen.jquery.js' %}"></script>
+    <script src="{% static 'js/web2py.js' %}"></script>
+    <!--<script src="{% static 'js/web2py-bootstrap3.js' %}"></script>-->
+    <script src="{% static 'js/calendar.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'datatable/css/dataTables.bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chosen.css' %}">
+    <link rel="stylesheet" href="{% static 'css/web2py.css' %}">
+    <!--<link rel="stylesheet" href="{% static 'css/web2py-bootstrap3.css' %}">-->
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stylish.css' %}">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            </div>
+        <div class="col-md-4">
+            <h1 align="center">
+                Регистрация
+            </h1>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <input class="btn btn-success" type="submit" value="Зарегистрироваться">
+                        <h5 align="center">или</h5>
+                        <a href="/login/">Войдите</a> если у Вас есть пароль
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

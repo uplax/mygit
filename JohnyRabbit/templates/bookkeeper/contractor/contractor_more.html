@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        <h1>{{contractor.organization}} "{{contractor.name}}"</h1>
+                        <h3>ИНН: {{contractor.inn}}</h3>
+                    </div>
+                    <div class="col-md-6">
+                        <h2>ОРГН:</h2>
+                        <h3>Юр.адрес:</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <h2 class="main-text" align="center">Транзакции по контрагенту</h2>
+                    </div>
+                    <div class="col-md-2">
+                        </div>
+                    <div class="col-md-8">
+                    <table class="table table-bordered table-condensed" id="myTable">
+                        <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Дебет</th>
+                            <th>Кредит</th>
+                            <th>Сумма</th>
+                            <th>Примечание</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                    </table>
+                        </div>
+                    <div class="col-md-2">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="JavaScript">
+$(document).ready(function(){
+    $('#myTable').DataTable({
+        "Processing": true,
+        "serverSide": true,
+        "ajax":"{% url 'transc_data' pk=contractor.pk %}",
+        "columns": [
+            {data: 'date'},
+            {data: 'debit'},
+            {data: 'credit'},
+            {data: 'summ'},
+            {data: 'info'},
+            {data: 'pk'}
+
+        ],
+        "columnDefs":[
+            {
+                "targets": 1,
+                "data": null,
+                "render": function(data,type,full,meta){
+                    return '<a class="btn btn-default btn-block btn-xs" href="/workgroup/bill/'+data+'">'+data+'</a>';
+            }},
+            {
+                "targets": 2,
+                "data": null,
+                "render": function(data,type,full,meta){
+                    return '<a class="btn btn-default btn-block btn-xs" href="/workgroup/bill/'+data+'">'+data+'</a>';
+            }},
+
+            {
+                "targets": 5,
+                "data": null,
+                "render": function(data,type,full,meta){
+                    return '<div class="btn-group "><a href="/edittrans/'+data+'/?next={{request.path}}'+'" class="btn btn-default btn-xs delete" style="width: 50%;"><span class="glyphicon glyphicon-pencil"></span></a><a href="/removetransaction/'+data+'" class="btn btn-danger btn-xs delete" style="width: 50%;">'+'<span class="glyphicon glyphicon-trash"></span>'+'</a></div>'
+            }
+        }]
+    });
+});
+</script>
+{% endblock %}
